@@ -34,7 +34,6 @@ class MyClient(discord.Client):
             if message.channel.id == self.main_channel:
                 if content[1] == 'ping':
                     await message.channel.send('pong')
-                    await message.delete()
             else:
                 await message.channel.send("Куды пишешь!!!!")
                 await message.delete()
