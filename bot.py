@@ -34,6 +34,12 @@ class Command:
         self.mask = command["mask"]
         self.function = command_functions.get_func(command["function"])
 
+    async def exec(self, message, args=None):
+        if args is None:
+            await self.function(message)
+        else:
+            await self.function(message, args)
+
 
 class Server:
 
@@ -62,8 +68,20 @@ class Server:
         for cmd in cmds:
             self.commands[cmd["keyname"]] = Command(cmd_dict=cmd)
 
-    def try_exec_cmd(self, message):
-        raise NotImplementedError
+    async def try_exec_cmd(self, message: discord.Message):
+        cmd, args = self.parse_msg_content(message)
+
+        try:
+            await self.commands[cmd].exec(message, args)
+        except Exception as exc:
+            print(exc)
+
+    def parse_msg_content(self, message: discord.Message):
+        """
+        :returns cmd_name, *args
+        """
+        data = message.content.lstrip(self.prefix).split(" ")
+        return data[0], data[1:] if len(data) > 1 else None
 
 
 class MyClient(discord.Client):
@@ -86,12 +104,12 @@ class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
 
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         # don't respond to ourselves
         if message.author == self.user:
             return
 
-        self.servers[message.guild.id].try_exec_cmd(message)
+        await self.servers[message.guild.id].try_exec_cmd(message)
 
 
 '''
@@ -112,7 +130,7 @@ class MyClient(discord.Client):
 
 def main():
     client = MyClient()
-    # discord.message.Message.guild
+    # discord.message.Message.content
     # game = discord.Game("with the API")
     # client.change_presence(status=discord.Status.idle, activity=game)
     client.run(client.token)
