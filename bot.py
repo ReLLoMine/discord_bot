@@ -11,7 +11,11 @@ def str_to_class(string):
 
 class Command:
 
-    def __init__(self, keyname=None, mask=None, function=None, cmd_dict=None):
+    def __init__(self, keyname=None,
+                 mask=None,
+                 function=None,
+                 cmd_dict=None):
+
         if cmd_dict is not None:
             self.read_from_dict(cmd_dict)
 
@@ -28,34 +32,18 @@ class Command:
     def read_from_dict(self, command):
         self.keyname = command["keyname"]
         self.mask = command["mask"]
-        self.function = getattr(command_functions, command["function"])
-
-
-class Commands:
-
-    def __init__(self, commands=None):
-        self.commands = {}
-
-        if commands is None:
-            commands = {}
-        else:
-            self.read_from_dict(commands)
-
-    def read_from_dict(self, commands):
-        for cmd in commands:
-            self.commands[cmd["keyname"]] = Command(cmd_dict=cmd)
-
-    def add_command(self, command):
-        self.commands[command.keyname] = command
+        self.function = command_functions.get_func(command["function"])
 
 
 class Server:
 
     def __init__(self, server_id=None,
                  prefix=None,
-                 commands=None,
                  server_dict=None,
                  is_debug=False):
+
+        self.commands = {}
+        self.is_debug = is_debug
 
         if server_dict is not None:
             self.read_from_dict(server_dict)
@@ -64,15 +52,18 @@ class Server:
             self.server_id = str(server_id)
         if prefix is not None:
             self.prefix = prefix
-        if commands is not None:
-            self.commands = Commands(commands)
-
-        self.is_debug = is_debug
 
     def read_from_dict(self, server):
         self.server_id = server["server_id"]
         self.prefix = server["prefix"]
-        self.commands = Commands(commands=server["commands"])
+        self.read_from_dict_cmds(server["commands"])
+
+    def read_from_dict_cmds(self, cmds):
+        for cmd in cmds:
+            self.commands[cmd["keyname"]] = Command(cmd_dict=cmd)
+
+    def try_exec_cmd(self, message):
+        raise NotImplementedError
 
 
 class MyClient(discord.Client):
@@ -90,7 +81,7 @@ class MyClient(discord.Client):
 
         self.servers = {}
         for server in self.storage_file["servers"]:
-            self.servers[server["server_id"]] = Server(server)
+            self.servers[server["server_id"]] = Server(server_dict=server)
 
     async def on_ready(self):
         print('Logged on as', self.user)
@@ -100,7 +91,7 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
 
-        content = message.content.split()
+        self.servers[message.guild.id].try_exec_cmd(message)
 
 
 '''
