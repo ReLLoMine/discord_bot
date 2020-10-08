@@ -1,7 +1,47 @@
 {
   "token": "NjA4NjY2MDIwNDg3MzY0NjEy.XlJgmw.cHtHW66U_zTP4jFp4rvOx_lvCsc",
-  "main_channel": 763483660229017611,
-  "prefix": ">>",
-  "restricted_server": 479609309274177550,
-  "test_server": 619267511589797889
+  "owner_id": 401090419448086528,
+  "debug_server": 619267511589797889,
+  "servers": [
+    {
+      "server_id": 619267511589797889,
+      "prefix" : ">>",
+      "is_blacklisted": false,
+
+      "commands": [
+        {
+          "keyname": "example",
+          "mask": "prefix:command:args^1",
+          "function": "example_func",
+          "channel_whitelist": [
+
+          ],
+          "channel_blacklist":[
+
+          ]
+
+        },
+
+        {
+          "keyname": "ping",
+          "mask": "prefix:command",
+          "function": "ping",
+          "channel_whitelist": [
+
+          ],
+          "channel_blacklist":[
+
+          ]
+
+        }
+      ]
+
+    }
+
+
+
+
+
+  ]
+
 }

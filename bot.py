@@ -1,29 +1,78 @@
 import discord
 import json
 import time
+import sys
+import command_functions
+
+
+def str_to_class(string):
+    return getattr(sys.modules[__name__], string)
 
 
 class Command:
 
-    def __init__(self, prefix, keyname, mask, function):
-        self.keyname = keyname
-        self.prefix = prefix
-        self.function = function
-        self.mask = mask
+    def __init__(self, keyname=None, mask=None, function=None, cmd_dict=None):
+        if cmd_dict is not None:
+            self.read_from_dict(cmd_dict)
 
-    def check_input(self):
+        if keyname is not None:
+            self.keyname = keyname
+        if mask is not None:
+            self.mask = mask
+        if function is not None:
+            self.function = function
+
+    def check_content(self, content):
         raise NotImplementedError
+
+    def read_from_dict(self, command):
+        self.keyname = command["keyname"]
+        self.mask = command["mask"]
+        self.function = getattr(command_functions, command["function"])
 
 
 class Commands:
 
     def __init__(self, commands=None):
+        self.commands = {}
+
         if commands is None:
-            commands = []
-        self.commands = commands
+            commands = {}
+        else:
+            self.read_from_dict(commands)
+
+    def read_from_dict(self, commands):
+        for cmd in commands:
+            self.commands[cmd["keyname"]] = Command(cmd_dict=cmd)
 
     def add_command(self, command):
-        self.commands.append(command)
+        self.commands[command.keyname] = command
+
+
+class Server:
+
+    def __init__(self, server_id=None,
+                 prefix=None,
+                 commands=None,
+                 server_dict=None,
+                 is_debug=False):
+
+        if server_dict is not None:
+            self.read_from_dict(server_dict)
+
+        if server_id is not None:
+            self.server_id = str(server_id)
+        if prefix is not None:
+            self.prefix = prefix
+        if commands is not None:
+            self.commands = Commands(commands)
+
+        self.is_debug = is_debug
+
+    def read_from_dict(self, server):
+        self.server_id = server["server_id"]
+        self.prefix = server["prefix"]
+        self.commands = Commands(commands=server["commands"])
 
 
 class MyClient(discord.Client):
@@ -36,11 +85,12 @@ class MyClient(discord.Client):
 
         file = open("storage.json", "r+")
         self.storage_file = json.loads(file.read())
-        self.token = self.storage_file["token"]
-        self.main_channel = self.storage_file["main_channel"]
-        self.prefix = self.storage_file["prefix"]
-        self.restricted_server = self.storage_file["restricted_server"]
         file.close()
+        self.token = self.storage_file["token"]
+
+        self.servers = {}
+        for server in self.storage_file["servers"]:
+            self.servers[server["server_id"]] = Server(server)
 
     async def on_ready(self):
         print('Logged on as', self.user)
@@ -52,6 +102,8 @@ class MyClient(discord.Client):
 
         content = message.content.split()
 
+
+'''
         if content[0] == self.prefix and \
                 not message.guild.id == self.restricted_server:
 
@@ -64,6 +116,7 @@ class MyClient(discord.Client):
         # Security
         elif message.guild.id == self.restricted_server:
             await message.channel.send("Мне сюда низя")
+'''
 
 
 def main():
