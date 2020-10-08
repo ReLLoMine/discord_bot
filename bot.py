@@ -3,6 +3,29 @@ import json
 import time
 
 
+class Command:
+
+    def __init__(self, prefix, keyname, mask, function):
+        self.keyname = keyname
+        self.prefix = prefix
+        self.function = function
+        self.mask = mask
+
+    def check_input(self):
+        raise NotImplementedError
+
+
+class Commands:
+
+    def __init__(self, commands=None):
+        if commands is None:
+            commands = []
+        self.commands = commands
+
+    def add_command(self, command):
+        self.commands.append(command)
+
+
 class MyClient(discord.Client):
     main_channel = 0
     storage_file = None
@@ -17,6 +40,7 @@ class MyClient(discord.Client):
         self.main_channel = self.storage_file["main_channel"]
         self.prefix = self.storage_file["prefix"]
         self.restricted_server = self.storage_file["restricted_server"]
+        file.close()
 
     async def on_ready(self):
         print('Logged on as', self.user)
@@ -28,7 +52,7 @@ class MyClient(discord.Client):
 
         content = message.content.split()
 
-        if content[0] == self.prefix and\
+        if content[0] == self.prefix and \
                 not message.guild.id == self.restricted_server:
 
             if message.channel.id == self.main_channel:
