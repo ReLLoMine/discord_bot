@@ -46,13 +46,23 @@
 
           ]
 
+        },
+
+        {
+          "keyname": "kick",
+          "mask": "command:args^1",
+          "function": "kick_user",
+          "channel_whitelist": [
+
+          ],
+          "channel_blacklist":[
+
+          ]
+
         }
-        ]
 
+      ]
     }
-
-
-
 
 
   ]
