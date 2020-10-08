@@ -16,8 +16,12 @@ async def add_role(message: discord.Message, args):
 
 
 async def kick_user(message: discord.Message, args):
-    await message.guild.get_member(comm_functions.discord_id(args[0])).kick(
-        reason="Loshara")
+    if message.author.guild_permissions.kick_members:
+        await message.guild.get_member(comm_functions.discord_id(args[0])).kick(
+            reason="Loshara")
+    else:
+        await message.channel.send(f"{message.author.mention} у тебя нет прав "
+                                   f"для этой комманды ")
 
 
 def get_func(name: str):

@@ -31,7 +31,7 @@ class MyClient(discord.Client):
             return
 
         if message.channel.type is discord.ChannelType.private:
-            pass
+            await message.channel.send(message.content)
         elif message.channel.type is discord.ChannelType.text:
             await self.servers[message.guild.id].try_exec_cmd(message)
 

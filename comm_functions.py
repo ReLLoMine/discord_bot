@@ -1,20 +1,21 @@
 import sys
 import discord
 
-
-def discord_id(string: str, tpid="member"):
-    types = {
+id_types = {
         "member": {
-            "left": "<@!",
-            "right": ">"
+            "L": "<@!",
+            "R": ">"
         },
         "role": {
-            "left": "<@&",
-            "right": ">"
+            "L": "<@&",
+            "R": ">"
         },
         "channel": {
-            "left": "<#",
-            "right": ">"
+            "L": "<#",
+            "R": ">"
         }
-    }
-    return int(string.lstrip(types[tpid]["left"]).rstrip(types[tpid]["right"]))
+}
+
+
+def discord_id(string: str, tpid="member"):
+    return int(string.lstrip(id_types[tpid]["L"]).rstrip(id_types[tpid]["R"]))
