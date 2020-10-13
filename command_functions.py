@@ -15,6 +15,12 @@ async def add_role(message: discord.Message, args):
     await message.guild.create_role()
 
 
+async def get_avatar(message: discord.Message, args):
+    await message.delete()
+    await message.channel.send(message.guild.get_member(
+        comm_functions.discord_id(args[0], "member")).avatar_url)
+
+
 async def kick_user(message: discord.Message, args):
     if message.author.guild_permissions.kick_members:
         await message.guild.get_member(comm_functions.discord_id(args[0])).kick(

@@ -59,6 +59,19 @@
 
           ]
 
+        },
+
+        {
+          "keyname": "getavatar",
+          "mask": "command:args^1",
+          "function": "get_avatar",
+          "channel_whitelist": [
+
+          ],
+          "channel_blacklist": [
+
+          ]
+
         }
 
       ]
