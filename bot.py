@@ -36,14 +36,13 @@ class MyClient(discord.Client):
         elif message.channel.type is discord.ChannelType.text:
             await self.servers[message.guild.id].try_exec_cmd(message)
 
+    def run(self):
+        super().run(self.token)
+
 
 def main():
-    # discord.message.Message.content
-    # game = discord.Game("with the API")
-    # client.change_presence(status=discord.Status.idle, activity=game)
-
     client = MyClient()
-    client.run(client.token)
+    client.run()
 
 
 if __name__ == '__main__':
