@@ -11,10 +11,9 @@
       "commands": [
         {
           "keyname": "example",
-          "mask": "command:args^1",
           "function": "example_func",
           "channel_whitelist": [
-
+            763483660229017611
           ],
           "channel_blacklist": [
 
@@ -24,10 +23,9 @@
 
         {
           "keyname": "ping",
-          "mask": "command",
           "function": "ping",
           "channel_whitelist": [
-
+            763483660229017611
           ],
           "channel_blacklist": [
 
@@ -37,10 +35,9 @@
 
         {
           "keyname": "add_role",
-          "mask": "command:args^1",
           "function": "add_role",
           "channel_whitelist": [
-
+            763483660229017611
           ],
           "channel_blacklist": [
 
@@ -50,10 +47,9 @@
 
         {
           "keyname": "kick",
-          "mask": "command:args^1",
           "function": "kick_user",
           "channel_whitelist": [
-
+            763483660229017611
           ],
           "channel_blacklist": [
 
@@ -63,10 +59,9 @@
 
         {
           "keyname": "getavatar",
-          "mask": "command:args^1",
           "function": "get_avatar",
           "channel_whitelist": [
-
+            763483660229017611
           ],
           "channel_blacklist": [
 
