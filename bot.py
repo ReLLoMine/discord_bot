@@ -17,10 +17,18 @@ class MyClient(discord.Client):
         self.storage_file = json.loads(file.read())
         file.close()
         self.token = self.storage_file["token"]
+        self.owner_id = self.storage_file["owner_id"]
 
         self.servers = {}
         for server in self.storage_file["servers"]:
             self.servers[server["server_id"]] = Server(server_dict=server)
+
+    async def on_voice_state_update(self, member, before, after):
+        if member.id == self.owner_id:
+            if before.channel is not None and after.channel is not None:
+                if before.channel.id == 732177005977534474 and \
+                        after.afk:
+                    await member.move_to(before.channel)
 
     async def on_ready(self):
         print('Logged on as', self.user)

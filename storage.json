@@ -70,6 +70,74 @@
         }
 
       ]
+    },
+    {
+      "server_id": 479609309274177550,
+      "prefix" : ">>",
+      "is_blacklisted": false,
+
+      "commands": [
+        {
+          "keyname": "example",
+          "function": "example_func",
+          "channel_whitelist": [
+            763483660229017611
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        },
+
+        {
+          "keyname": "ping",
+          "function": "ping",
+          "channel_whitelist": [
+            763483660229017611
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        },
+
+        {
+          "keyname": "add_role",
+          "function": "add_role",
+          "channel_whitelist": [
+            763483660229017611
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        },
+
+        {
+          "keyname": "kick",
+          "function": "kick_user",
+          "channel_whitelist": [
+            763483660229017611
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        },
+
+        {
+          "keyname": "getavatar",
+          "function": "get_avatar",
+          "channel_whitelist": [
+            763483660229017611
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        }
+
+      ]
     }
 
 
