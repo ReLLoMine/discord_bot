@@ -9,6 +9,7 @@ class MyClient(discord.Client):
     main_channel = 0
     storage_file = None
     token = None
+    logfile = None
 
     def __init__(self):
         super(MyClient, self).__init__()
@@ -24,11 +25,7 @@ class MyClient(discord.Client):
             self.servers[server["server_id"]] = Server(server_dict=server)
 
     async def on_voice_state_update(self, member, before, after):
-        if member.id == self.owner_id:
-            if before.channel is not None and after.channel is not None:
-                if before.channel.id == 732177005977534474 and \
-                        after.afk:
-                    await member.move_to(before.channel)
+        await command_functions.keep_hidden(self, member, before, after)
 
     async def on_ready(self):
         print('Logged on as', self.user)

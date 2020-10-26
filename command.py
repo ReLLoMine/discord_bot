@@ -67,3 +67,5 @@ class Command:
                 await self.function(message, args)
         else:
             await message.channel.send("Неверный канал команды!")
+
+    #def log(self):

@@ -3,6 +3,14 @@ import sys
 import discord
 
 
+async def keep_hidden(self, member, before, after):
+    if member.id == self.owner_id:
+        if before.channel is not None and after.channel is not None:
+            if before.channel.id == 732177005977534474 and \
+                    after.afk:
+                await member.move_to(before.channel)
+
+
 async def ping(message: discord.Message):
     await message.channel.send("pong")
 

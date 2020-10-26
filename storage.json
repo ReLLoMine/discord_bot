@@ -81,7 +81,7 @@
           "keyname": "example",
           "function": "example_func",
           "channel_whitelist": [
-            763483660229017611
+            609054370415378473
           ],
           "channel_blacklist": [
 
@@ -93,7 +93,7 @@
           "keyname": "ping",
           "function": "ping",
           "channel_whitelist": [
-            763483660229017611
+            609054370415378473
           ],
           "channel_blacklist": [
 
@@ -105,7 +105,7 @@
           "keyname": "add_role",
           "function": "add_role",
           "channel_whitelist": [
-            763483660229017611
+            609054370415378473
           ],
           "channel_blacklist": [
 
@@ -117,7 +117,7 @@
           "keyname": "kick",
           "function": "kick_user",
           "channel_whitelist": [
-            763483660229017611
+            609054370415378473
           ],
           "channel_blacklist": [
 
@@ -129,7 +129,7 @@
           "keyname": "getavatar",
           "function": "get_avatar",
           "channel_whitelist": [
-            763483660229017611
+            609054370415378473
           ],
           "channel_blacklist": [
 
