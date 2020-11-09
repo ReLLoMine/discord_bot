@@ -34,30 +34,6 @@
         },
 
         {
-          "keyname": "add_role",
-          "function": "add_role",
-          "channel_whitelist": [
-            763483660229017611
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
-          "keyname": "kick",
-          "function": "kick_user",
-          "channel_whitelist": [
-            763483660229017611
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
           "keyname": "getavatar",
           "function": "get_avatar",
           "channel_whitelist": [
@@ -102,34 +78,34 @@
         },
 
         {
-          "keyname": "add_role",
-          "function": "add_role",
-          "channel_whitelist": [
-            609054370415378473
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
-          "keyname": "kick",
-          "function": "kick_user",
-          "channel_whitelist": [
-            609054370415378473
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
           "keyname": "getavatar",
           "function": "get_avatar",
           "channel_whitelist": [
-            609054370415378473
+            536625017467830292
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        },
+
+        {
+          "keyname": "hentai",
+          "function": "hentai",
+          "channel_whitelist": [
+
+          ],
+          "channel_blacklist": [
+
+          ]
+
+        },
+
+        {
+          "keyname": "pidor",
+          "function": "pidor",
+          "channel_whitelist": [
+
           ],
           "channel_blacklist": [
 

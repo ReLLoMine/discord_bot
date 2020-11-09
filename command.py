@@ -66,6 +66,8 @@ class Command:
             else:
                 await self.function(message, args)
         else:
-            await message.channel.send("Неверный канал команды!")
+            await message.delete()
+            temp = await message.channel.send("Неверный канал команды!")
+            await temp.delete(delay=10)
 
-    #def log(self):
+    # def log(self):

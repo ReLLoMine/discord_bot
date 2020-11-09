@@ -2,6 +2,7 @@ import command_functions
 from server import *
 import discord
 import json
+import utils
 import sys
 
 
@@ -25,9 +26,12 @@ class MyClient(discord.Client):
             self.servers[server["server_id"]] = Server(server_dict=server)
 
     async def on_voice_state_update(self, member, before, after):
-        await command_functions.keep_hidden(self, member, before, after)
+        await utils.voice_update(self, member, before, after)
 
     async def on_ready(self):
+        game = discord.Activity(type=discord.ActivityType.listening,
+                                name="'>>' prefix")
+        await self.change_presence(status=discord.Status.invisible, activity=game)
         print('Logged on as', self.user)
 
     async def on_message(self, message: discord.Message):
