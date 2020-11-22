@@ -4,54 +4,16 @@
   "debug_server": 619267511589797889,
   "servers": [
     {
-      "server_id": 619267511589797889,
-      "prefix" : ">>",
-      "is_blacklisted": false,
-
-      "commands": [
-        {
-          "keyname": "example",
-          "function": "example_func",
-          "channel_whitelist": [
-            763483660229017611
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
-          "keyname": "ping",
-          "function": "ping",
-          "channel_whitelist": [
-            763483660229017611
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
-          "keyname": "getavatar",
-          "function": "get_avatar",
-          "channel_whitelist": [
-            763483660229017611
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        }
-
-      ]
-    },
-    {
       "server_id": 479609309274177550,
       "prefix" : ">>",
       "is_blacklisted": false,
-
+      "create_channel_category": 780027169505542145,
+      "target_create_channel_category": 479609309274177554,
+      "bad_mans": [
+        208144030054219778,
+        361575685292294144,
+        409348312559386635
+      ],
       "commands": [
         {
           "keyname": "example",

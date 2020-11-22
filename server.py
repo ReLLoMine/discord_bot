@@ -17,6 +17,10 @@ class Server:
 
         self.commands = {}
         self.is_debug = is_debug
+        self.create_channel_category = None
+        self.target_create_channel_category = None
+        self.created_channels = []
+        self.bad_mans = []
 
         if server_dict is not None:
             self.read_from_dict(server_dict)
@@ -29,6 +33,9 @@ class Server:
     def read_from_dict(self, server):
         self.server_id = server["server_id"]
         self.prefix = server["prefix"]
+        self.bad_mans = server["bad_mans"]
+        self.create_channel_category = server["create_channel_category"]
+        self.target_create_channel_category = server["target_create_channel_category"]
         self.read_from_dict_cmds(server["commands"])
 
     def read_from_dict_cmds(self, cmds):
@@ -46,7 +53,7 @@ class Server:
 
     def parse_msg_content(self, message: discord.Message):
         """
-        Returns: cmd_name, *args
+        :returns cmd_name, *args
         """
         if message.content.startswith(self.prefix):
             data = message.content.lstrip(self.prefix).split(" ")
