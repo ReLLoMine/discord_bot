@@ -31,7 +31,7 @@ class MyClient(discord.Client):
     async def on_ready(self):
         game = discord.Activity(type=discord.ActivityType.listening,
                                 name="'>>' prefix")
-        await self.change_presence(status=discord.Status.invisible, activity=game)
+        await self.change_presence(status=discord.Status.online, activity=game)
         print('Logged on as', self.user)
 
     async def on_message(self, message: discord.Message):
