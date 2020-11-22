@@ -49,30 +49,6 @@
 
           ]
 
-        },
-
-        {
-          "keyname": "hentai",
-          "function": "hentai",
-          "channel_whitelist": [
-
-          ],
-          "channel_blacklist": [
-
-          ]
-
-        },
-
-        {
-          "keyname": "pidor",
-          "function": "pidor",
-          "channel_whitelist": [
-
-          ],
-          "channel_blacklist": [
-
-          ]
-
         }
 
       ]
