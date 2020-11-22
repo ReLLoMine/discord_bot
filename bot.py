@@ -5,7 +5,7 @@ from server import *
 import discord
 import json
 import utils
-import sys
+import os
 
 
 class MyClient(discord.Client):
@@ -17,7 +17,7 @@ class MyClient(discord.Client):
     def __init__(self):
         super(MyClient, self).__init__()
 
-        file = open("storage.json", "r+")
+        file = open(os.path.join(utils.ROOT_DIR, "storage.json"), "r+")
         self.storage_file = json.loads(file.read())
         file.close()
         self.token = self.storage_file["token"]

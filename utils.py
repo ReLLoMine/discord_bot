@@ -1,9 +1,10 @@
 import sys
 from time import sleep
-
 import discord
-
+import os
 from bot import MyClient
+
+ROOT_DIR = sys.path[0]
 
 id_types = {
     "member": {
@@ -34,7 +35,7 @@ def discord_id(string: str, strip="member"):
 
 async def play_sound(voice_client, file):
     source = discord.FFmpegPCMAudio(
-        executable="ffmpeg\\bin\\ffmpeg.exe",
+        executable=os.path.join(ROOT_DIR, "ffmpeg", "bin", "ffmpeg.exe"),
         source=file)
 
     voice_client.play(source)
