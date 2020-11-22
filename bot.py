@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import command_functions
 from server import *
 import discord
