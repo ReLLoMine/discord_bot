@@ -57,8 +57,8 @@ async def voice_update(client: MyClient, member, before, after):
             server.created_channels.append(channel.id)
             category = next((x for x in member.guild.categories if x.id == client.servers[
                 member.guild.id].target_create_channel_category), None)
-            await member.move_to(channel)
             await channel.edit(category=category, sync_permissions=True, position=1)
+            await member.move_to(channel)
 
     if before is not None:
         if before.channel.category_id == server.target_create_channel_category:
