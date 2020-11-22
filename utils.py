@@ -51,7 +51,7 @@ async def voice_update(client: MyClient, member, before, after):
         if before.channel is not None and after.channel is not None:
             if before.channel.id == 732177005977534474 and after.afk:
                 await member.move_to(before.channel)
-    if after is not None:
+    if after.channel is not None:
         if after.channel.category_id == server.create_channel_category:
             channel = await after.channel.clone()
             server.created_channels.append(channel.id)
@@ -60,7 +60,7 @@ async def voice_update(client: MyClient, member, before, after):
             await channel.edit(category=category, sync_permissions=True, position=1)
             await member.move_to(channel)
 
-    if before is not None:
+    if before.channel is not None:
         if before.channel.category_id == server.target_create_channel_category:
             if before.channel.id in server.created_channels and len(before.channel.members) == 0:
                 await before.channel.delete()
