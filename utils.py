@@ -61,9 +61,8 @@ async def voice_update(client: MyClient, member, before, after):
             await member.move_to(channel)
 
     if before.channel is not None:
-        if before.channel.category_id == server.target_create_channel_category:
-            if before.channel.id in server.created_channels and len(before.channel.members) == 0:
-                await before.channel.delete()
+        if before.channel.id in server.created_channels and len(before.channel.members) == 0:
+            await before.channel.delete()
 
 
 """
