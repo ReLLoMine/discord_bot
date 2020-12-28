@@ -47,10 +47,10 @@ async def play_sound(voice_client, file):
 
 async def voice_update(client: MyClient, member, before, after):
     server = client.servers[member.guild.id]
-    if member.id == client.owner_id:
-        if before.channel is not None and after.channel is not None:
-            if before.channel.id == 732177005977534474 and after.afk:
-                await member.move_to(before.channel)
+    if before.channel is not None and after.channel is not None:
+        if before.channel.id == 732177005977534474 and after.afk:
+            await member.move_to(before.channel)
+
     if after.channel is not None:
         if after.channel.category_id == server.create_channel_category:
             channel = await after.channel.clone()
