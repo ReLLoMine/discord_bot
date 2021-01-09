@@ -3,29 +3,16 @@
 import command_functions
 from server import *
 import discord
-import json
 import utils
-import os
-
+import my_storage
 
 class MyClient(discord.Client):
-    main_channel = 0
-    storage_file = None
-    token = None
     logfile = None
 
     def __init__(self):
         super(MyClient, self).__init__()
-
-        file = open(os.path.join(utils.ROOT_DIR, "storage.json"), "r+")
-        self.storage_file = json.loads(file.read())
-        file.close()
-        self.token = self.storage_file["token"]
-        self.owner_id = self.storage_file["owner_id"]
-
-        self.servers = {}
-        for server in self.storage_file["servers"]:
-            self.servers[server["server_id"]] = Server(server_dict=server)
+        self.storage = my_storage.MyStorage()
+        self.servers = {int(self.storage.servers[index].server_id): Server(self.storage.servers[index]) for index in range(len(self.storage.servers))}
 
     async def on_voice_state_update(self, member, before, after):
         await utils.voice_update(self, member, before, after)
@@ -35,6 +22,16 @@ class MyClient(discord.Client):
                                 name="'>>' prefix")
         await self.change_presence(status=discord.Status.online, activity=game)
         print('Logged on as', self.user)
+
+        for server in self.storage.servers:
+            guild = self.get_guild(server.server_id)
+            for channel in server.created_channels:
+                _channel = guild.get_channel(channel)
+                if len(_channel.members) == 0:
+                    server.created_channels.remove(_channel.id)
+                    await _channel.delete()
+
+        self.storage.save()
 
     async def on_message(self, message: discord.Message):
         # don't respond to ourselves
@@ -48,7 +45,7 @@ class MyClient(discord.Client):
             await self.servers[message.guild.id].try_exec_cmd(message)
 
     def run(self):
-        super().run(self.token)
+        super().run(self.storage.token)
 
 
 def main():

@@ -2,6 +2,7 @@ import discord
 import sys
 
 from command import Command
+from my_storage import MyStorage, ServerField
 
 
 def str_to_class(string):
@@ -10,37 +11,9 @@ def str_to_class(string):
 
 class Server:
 
-    def __init__(self, server_id=None,
-                 prefix=None,
-                 server_dict=None,
-                 is_debug=False):
-
-        self.commands = {}
-        self.is_debug = is_debug
-        self.create_channel_category = None
-        self.target_create_channel_category = None
-        self.created_channels = []
-        self.bad_mans = []
-
-        if server_dict is not None:
-            self.read_from_dict(server_dict)
-
-        if server_id is not None:
-            self.server_id = str(server_id)
-        if prefix is not None:
-            self.prefix = prefix
-
-    def read_from_dict(self, server):
-        self.server_id = server["server_id"]
-        self.prefix = server["prefix"]
-        self.bad_mans = server["bad_mans"]
-        self.create_channel_category = server["create_channel_category"]
-        self.target_create_channel_category = server["target_create_channel_category"]
-        self.read_from_dict_cmds(server["commands"])
-
-    def read_from_dict_cmds(self, cmds):
-        for cmd in cmds:
-            self.commands[cmd["keyname"]] = Command(cmd_dict=cmd)
+    def __init__(self, data: ServerField):
+        self.data = data
+        self.commands = {self.data.commands[index].keyname: Command(self.data.commands[index]) for index in range(len(self.data.commands))}
 
     async def try_exec_cmd(self, message: discord.Message):
         cmd, args = self.parse_msg_content(message)
@@ -55,8 +28,8 @@ class Server:
         """
         :returns cmd_name, *args
         """
-        if message.content.startswith(self.prefix):
-            data = message.content.lstrip(self.prefix).split(" ")
+        if message.content.startswith(self.data.prefix):
+            data = message.content.lstrip(self.data.prefix).split(" ")
         else:
             return None, None
 

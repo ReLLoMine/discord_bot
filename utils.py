@@ -52,22 +52,17 @@ async def voice_update(client: MyClient, member, before, after):
             await member.move_to(before.channel)
 
     if after.channel is not None:
-        if after.channel.category_id == server.create_channel_category:
+        if after.channel.category_id == server.data.origin_channel_category:
             channel = await after.channel.clone()
-            server.created_channels.append(channel.id)
+            server.data.created_channels.append(channel.id)
+            client.storage.save()
             category = next((x for x in member.guild.categories if x.id == client.servers[
-                member.guild.id].target_create_channel_category), None)
+                member.guild.id].data.target_create_channel_category), None)
             await channel.edit(category=category, sync_permissions=True, position=1)
             await member.move_to(channel)
 
     if before.channel is not None:
-        if before.channel.id in server.created_channels and len(before.channel.members) == 0:
+        if before.channel.id in server.data.created_channels and len(before.channel.members) == 0:
+            server.data.created_channels.remove(before.channel.id)
+            client.storage.save()
             await before.channel.delete()
-
-
-"""
-    elif member.id in self.servers[member.guild.id].bad_mans:
-        if after.channel is not None:
-            voice_client = await after.channel.connect()
-            await play_sound(voice_client, "sounds\\3.14др.m4a")  
-"""
