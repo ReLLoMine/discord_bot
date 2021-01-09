@@ -1,60 +1,48 @@
 {
-  "token": "NjA4NjY2MDIwNDg3MzY0NjEy.XlJgmw.cHtHW66U_zTP4jFp4rvOx_lvCsc",
+  "__class__": "MyStorage",
+  "token": "Nzk3NDY4NjkwNjUxODA3ODA2.X_m6mA.WSn1wVwS_brsSmrvAeJpw_oMckA",
   "owner_id": 401090419448086528,
   "debug_server": 619267511589797889,
   "servers": [
     {
-      "server_id": 479609309274177550,
-      "prefix" : ">>",
-      "is_blacklisted": false,
-      "create_channel_category": 780027169505542145,
-      "target_create_channel_category": 479609309274177554,
-      "bad_mans": [
-        208144030054219778,
-        361575685292294144,
-        409348312559386635
-      ],
+      "__class__": "ServerField",
+      "server_id": 619267511589797889,
+      "prefix": ">>",
+      "origin_channel_category": 797473366122299402,
+      "target_create_channel_category": 797473395611926560,
+      "created_channels": [],
       "commands": [
         {
+          "__class__": "CommandField",
           "keyname": "example",
           "function": "example_func",
+          "is_blacklisted": false,
           "channel_whitelist": [
-            609054370415378473
+            619597091924344853
           ],
-          "channel_blacklist": [
-
-          ]
-
+          "channel_blacklist": []
         },
-
         {
+          "__class__": "CommandField",
           "keyname": "ping",
           "function": "ping",
+          "is_blacklisted": false,
           "channel_whitelist": [
-            609054370415378473
+            619597091924344853
           ],
-          "channel_blacklist": [
-
-          ]
-
+          "channel_blacklist": []
         },
-
         {
+          "__class__": "CommandField",
           "keyname": "getavatar",
           "function": "get_avatar",
+          "is_blacklisted": false,
           "channel_whitelist": [
-            536625017467830292
+            619597091924344853
           ],
-          "channel_blacklist": [
-
-          ]
-
+          "channel_blacklist": []
         }
-
       ]
     }
-
-
   ]
-
 }
