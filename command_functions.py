@@ -4,7 +4,9 @@ import discord
 
 
 async def ping(message: discord.Message):
-    await message.channel.send("pong")
+    msg = await message.channel.send("pong")
+    await msg.delete(delay=5)
+    await message.delete(delay=5)
 
 
 def example_func(message: discord.Message, args):

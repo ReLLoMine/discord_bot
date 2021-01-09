@@ -7,6 +7,7 @@ class CommandField(storage.Field):
     def __init__(self):
         self.keyname = "example"
         self.function = "example_func"
+        self.description = "example description"
         self.is_blacklisted = False
         self.channel_whitelist = []
         self.channel_blacklist = []
@@ -27,5 +28,6 @@ class MyStorage(storage.Storage):
         self.token = "token"
         self.owner_id = 401090419448086528
         self.debug_server = 619267511589797889
+        self.default_commands: List[CommandField] = []
         self.servers: List[ServerField] = []
         super().__init__(**args)

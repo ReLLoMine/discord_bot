@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from copy import copy
 
 import command_functions
 from server import *
@@ -7,10 +8,12 @@ import utils
 import my_storage
 
 class MyClient(discord.Client):
+    intents = discord.Intents.default()
+    intents.members = True
     logfile = None
 
     def __init__(self):
-        super(MyClient, self).__init__()
+        super(MyClient, self).__init__(intents=self.intents)
         self.storage = my_storage.MyStorage()
         self.servers = {int(self.storage.servers[index].server_id): Server(self.storage.servers[index]) for index in range(len(self.storage.servers))}
 
@@ -27,9 +30,11 @@ class MyClient(discord.Client):
             guild = self.get_guild(server.server_id)
             for channel in server.created_channels:
                 _channel = guild.get_channel(channel)
-                if len(_channel.members) == 0:
-                    server.created_channels.remove(_channel.id)
+                if _channel is not None and len(_channel.members) == 0:
                     await _channel.delete()
+                    server.created_channels.remove(_channel.id)
+                elif _channel is None:
+                    server.created_channels.remove(channel)
 
         self.storage.save()
 
@@ -43,6 +48,14 @@ class MyClient(discord.Client):
 
         elif message.channel.type is discord.ChannelType.text:
             await self.servers[message.guild.id].try_exec_cmd(message)
+
+    async def on_guild_join(self, guild: discord.Guild):
+        server = ServerField()
+        server.server_id = guild.id
+        server.commands = copy(self.storage.default_commands)
+        self.storage.servers.append(server)
+        self.servers[guild.id] = Server(server)
+        self.storage.save()
 
     def run(self):
         super().run(self.storage.token)

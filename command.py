@@ -15,7 +15,7 @@ class Command:
     def __init__(self, data: CommandField):
         self.data = data
         self.function = command_functions.get_func(self.data.function)
-
+        self.list_mode = ListMode.none
         list_flag = False
 
         if len(self.data.channel_whitelist) > 0:
