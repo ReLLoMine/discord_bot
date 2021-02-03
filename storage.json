@@ -17,7 +17,7 @@
       "__class__": "CommandField",
       "keyname": "ping",
       "function": "ping",
-      "description": "example description",
+      "description": "Simple ping-pong",
       "is_blacklisted": false,
       "channel_whitelist": [],
       "channel_blacklist": []
@@ -26,92 +26,25 @@
       "__class__": "CommandField",
       "keyname": "getavatar",
       "function": "get_avatar",
-      "description": "example description",
+      "description": "Return URL of avatar of metointed user",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
+      "keyname": "setprefix",
+      "function": "set_prefix",
+      "description": "Change prefix",
       "is_blacklisted": false,
       "channel_whitelist": [],
       "channel_blacklist": []
     }
   ],
-  "servers": [
-    {
+  "servers": {
+    "619267511589797889": {
       "__class__": "ServerField",
-      "server_id": 619267511589797889,
-      "prefix": ">>",
-      "origin_channel_category": 797473366122299402,
-      "target_create_channel_category": 797473395611926560,
-      "created_channels": [],
-      "commands": [
-        {
-          "__class__": "CommandField",
-          "keyname": "example",
-          "function": "example_func",
-          "description": "example description",
-          "is_blacklisted": false,
-          "channel_whitelist": [
-            619597091924344853
-          ],
-          "channel_blacklist": []
-        },
-        {
-          "__class__": "CommandField",
-          "keyname": "ping",
-          "function": "ping",
-          "description": "example description",
-          "is_blacklisted": false,
-          "channel_whitelist": [
-            619597091924344853
-          ],
-          "channel_blacklist": []
-        },
-        {
-          "__class__": "CommandField",
-          "keyname": "getavatar",
-          "function": "get_avatar",
-          "description": "example description",
-          "is_blacklisted": false,
-          "channel_whitelist": [
-            619597091924344853
-          ],
-          "channel_blacklist": []
-        }
-      ]
-    },
-    {
-      "__class__": "ServerField",
-      "server_id": 479609309274177550,
-      "prefix": "---",
-      "origin_channel_category": 0,
-      "target_create_channel_category": 0,
-      "created_channels": [],
-      "commands": [
-        {
-          "__class__": "CommandField",
-          "keyname": "example",
-          "function": "example_func",
-          "description": "example description",
-          "is_blacklisted": false,
-          "channel_whitelist": [],
-          "channel_blacklist": []
-        },
-        {
-          "__class__": "CommandField",
-          "keyname": "ping",
-          "function": "ping",
-          "description": "example description",
-          "is_blacklisted": false,
-          "channel_whitelist": [],
-          "channel_blacklist": []
-        },
-        {
-          "__class__": "CommandField",
-          "keyname": "getavatar",
-          "function": "get_avatar",
-          "description": "example description",
-          "is_blacklisted": false,
-          "channel_whitelist": [],
-          "channel_blacklist": []
-        }
-      ]
+      "path": "servers\\619267511589797889.json"
     }
-  ]
+  }
 }
