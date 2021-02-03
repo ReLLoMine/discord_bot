@@ -1,0 +1,45 @@
+{
+  "__class__": "MyStorage",
+  "token": "Nzk3NDY4NjkwNjUxODA3ODA2.X_m6mA.WSn1wVwS_brsSmrvAeJpw_oMckA",
+  "owner_id": 401090419448086528,
+  "debug_server": 619267511589797889,
+  "default_commands": [
+    {
+      "__class__": "CommandField",
+      "keyname": "example",
+      "function": "example_func",
+      "description": "example description",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
+      "keyname": "ping",
+      "function": "ping",
+      "description": "Simple ping-pong",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
+      "keyname": "getavatar",
+      "function": "get_avatar",
+      "description": "Return URL of avatar of metointed user",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
+      "keyname": "setprefix",
+      "function": "set_prefix",
+      "description": "Change prefix",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    }
+  ],
+  "servers": []
+}

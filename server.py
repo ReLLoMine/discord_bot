@@ -11,9 +11,10 @@ def str_to_class(string):
 
 class Server:
 
-    def __init__(self, data: ServerField):
+    def __init__(self, client, data: ServerField):
+        self.client = client
         self.data = data
-        self.commands = {self.data.commands[index].keyname: Command(self.data.commands[index]) for index in range(len(self.data.commands))}
+        self.commands = {self.data.commands[index].keyname: Command(client, self.data.commands[index]) for index in range(len(self.data.commands))}
 
     async def try_exec_cmd(self, message: discord.Message):
         cmd, args = self.parse_msg_content(message)

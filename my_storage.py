@@ -1,10 +1,11 @@
-from typing import List
+from typing import List, Dict
 
 import storage
 
 
 class CommandField(storage.Field):
-    def __init__(self):
+    def __init__(self, **args):
+        super().__init__(**args)
         self.keyname = "example"
         self.function = "example_func"
         self.description = "example description"
@@ -13,8 +14,9 @@ class CommandField(storage.Field):
         self.channel_blacklist = []
 
 
-class ServerField(storage.Field):
-    def __init__(self):
+class ServerField(storage.ModuleField):
+    def __init__(self, **args):
+        super().__init__(**args)
         self.server_id = 0
         self.prefix = ">>"
         self.origin_channel_category = 0
@@ -22,12 +24,16 @@ class ServerField(storage.Field):
         self.created_channels = []
         self.commands: List[CommandField] = []
 
+        self._path_dir = "servers"
+        self._extension = "json"
+        self._keyname = "server_id"
+
 
 class MyStorage(storage.Storage):
     def __init__(self, **args):
-        self.token = "token"
+        self.token = "Nzk3NDY4NjkwNjUxODA3ODA2.X_m6mA.WSn1wVwS_brsSmrvAeJpw_oMckA"
         self.owner_id = 401090419448086528
         self.debug_server = 619267511589797889
         self.default_commands: List[CommandField] = []
-        self.servers: List[ServerField] = []
+        self.servers: Dict[int, ServerField] = {}
         super().__init__(**args)

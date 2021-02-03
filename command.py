@@ -12,7 +12,8 @@ class ListMode(enumerate):
 
 class Command:
 
-    def __init__(self, data: CommandField):
+    def __init__(self, client, data: CommandField):
+        self.client = client
         self.data = data
         self.function = command_functions.get_func(self.data.function)
         self.list_mode = ListMode.none
@@ -44,9 +45,9 @@ class Command:
     async def exec(self, message: discord.Message, args=None):
         if self.check_restriction(message):
             if args is None:
-                await self.function(message)
+                await self.function(self, message)
             else:
-                await self.function(message, args)
+                await self.function(self, message, args)
         else:
             await message.delete()
             temp = await message.channel.send("Неверный канал команды!")
