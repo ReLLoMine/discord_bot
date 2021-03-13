@@ -12,8 +12,9 @@ class ListMode(enumerate):
 
 class Command:
 
-    def __init__(self, client, data: CommandField):
-        self.client = client
+    def __init__(self, server, data: CommandField):
+        self.client = server.client
+        self.server = server
         self.data = data
         self.function = command_functions.get_func(self.data.function)
         self.list_mode = ListMode.none
@@ -42,15 +43,12 @@ class Command:
     def check_content(self, content):
         raise NotImplementedError
 
-    async def exec(self, message: discord.Message, args=None):
+    async def execute(self, message: discord.Message, args):
         if self.check_restriction(message):
-            if args is None:
-                await self.function(self, message)
-            else:
-                await self.function(self, message, args)
+            await self.function(self, message, args)
         else:
             await message.delete()
-            temp = await message.channel.send("Неверный канал команды!")
+            temp = await message.channel.send("Restricted channel!")
             await temp.delete(delay=10)
 
     # def log(self):

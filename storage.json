@@ -15,6 +15,15 @@
     },
     {
       "__class__": "CommandField",
+      "keyname": "help",
+      "function": "help_func",
+      "description": "Help for commands",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
       "keyname": "ping",
       "function": "ping",
       "description": "Simple ping-pong",
@@ -33,9 +42,27 @@
     },
     {
       "__class__": "CommandField",
-      "keyname": "setprefix",
+      "keyname": "prefix",
       "function": "set_prefix",
       "description": "Change prefix",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
+      "keyname": "origin",
+      "function": "set_origin",
+      "description": "Change origin categoty",
+      "is_blacklisted": false,
+      "channel_whitelist": [],
+      "channel_blacklist": []
+    },
+    {
+      "__class__": "CommandField",
+      "keyname": "target",
+      "function": "set_target",
+      "description": "Change target categoty",
       "is_blacklisted": false,
       "channel_whitelist": [],
       "channel_blacklist": []
@@ -45,6 +72,14 @@
     "619267511589797889": {
       "__class__": "ServerField",
       "path": "servers\\619267511589797889.json"
+    },
+    "771293904087678989": {
+      "__class__": "ServerField",
+      "path": "servers\\771293904087678989.json"
+    },
+    "363667995672838154": {
+      "__class__": "ServerField",
+      "path": "servers\\363667995672838154.json"
     }
   }
 }

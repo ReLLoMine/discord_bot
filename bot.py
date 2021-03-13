@@ -2,6 +2,7 @@
 from copy import copy
 
 import command_functions
+import voice
 from server import *
 import discord
 import utils
@@ -31,12 +32,14 @@ class MyClient(discord.Client):
     def __init__(self):
         super(MyClient, self).__init__(intents=self.intents)
         self.storage = my_storage.MyStorage()
-        self.servers = {server_id: Server(self, self.storage.servers[server_id]) for server_id in self.storage.servers.keys()}
+        self.servers: List[Server] = {
+            server_id: Server(self, self.storage.servers[server_id]) for server_id in self.storage.servers.keys()
+        }
 
         set_exit_handler(self.on_exit)
 
     async def on_voice_state_update(self, member, before, after):
-        await utils.voice_update(self, member, before, after)
+        await voice.voice_update(self, member, before, after)
 
     async def on_ready(self):
         game = discord.Activity(type=discord.ActivityType.listening,
@@ -65,6 +68,9 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
 
+        if message.author.bot:
+            return
+
         if message.channel.type is discord.ChannelType.private:
             await message.channel.send(message.content)
 
@@ -74,9 +80,9 @@ class MyClient(discord.Client):
     async def on_guild_join(self, guild: discord.Guild):
         server = ServerField(storage=self.storage)
         server.server_id = guild.id
-        server.commands = copy(self.storage.default_commands)
         self.storage.servers[guild.id] = server
         self.servers[guild.id] = Server(self, server)
+        self.storage.save()
 
     def run(self):
         super().run(self.storage.token)
