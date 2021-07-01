@@ -1,7 +1,5 @@
-from bot import MyClient
 
-
-async def voice_update(client: MyClient, member, before, after):
+async def voice_update(client, member, before, after):
     server = client.servers[member.guild.id]
     if before.channel is not None and after.channel is not None:
         if before.channel.id == 732177005977534474 and after.afk:

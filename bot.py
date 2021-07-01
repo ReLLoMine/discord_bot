@@ -89,12 +89,3 @@ class MyClient(discord.Client):
 
     def on_exit(self, sig, func=None):
         self.storage.save()
-
-
-def main():
-    client = MyClient()
-    client.run()
-
-
-if __name__ == '__main__':
-    main()
