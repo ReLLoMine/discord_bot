@@ -45,7 +45,14 @@ class MyClient(discord.Client):
         game = discord.Activity(type=discord.ActivityType.listening,
                                 name="'>>' prefix")
         await self.change_presence(status=discord.Status.online, activity=game)
+
         print('Logged on as', self.user)
+
+        await self.check_avaiable_servers()
+
+        self.storage.save()
+
+    async def check_avaiable_servers(self):
 
         for server in self.storage.servers.values():
             guild = self.get_guild(server.server_id)
@@ -61,13 +68,11 @@ class MyClient(discord.Client):
             if guild.id not in self.servers:
                 await self.on_guild_join(guild)
 
-        self.storage.save()
-
     async def on_message(self, message: discord.Message):
         # don't respond to ourselves
         if message.author == self.user:
             return
-
+        # don't respond to bots
         if message.author.bot:
             return
 
