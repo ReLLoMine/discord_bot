@@ -1,0 +1,9 @@
+{
+  "__class__": "ServerField",
+  "server_id": 516893390076510221,
+  "prefix": ">>",
+  "origin_channel_category": 0,
+  "target_create_channel_category": 0,
+  "created_channels": [],
+  "commands": []
+}
