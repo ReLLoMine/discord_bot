@@ -16,12 +16,15 @@ def set_exit_handler(func):
         try:
             import win32api
             win32api.SetConsoleCtrlHandler(func, True)
+
         except ImportError:
             version = ".".join(map(str, sys.version_info[:2]))
             raise Exception("pywin32 not installed for Python " + version)
     else:
-        import signal
-        signal.signal(signal.SIGTERM, func)
+        pass
+        #import signal
+        #signal.signal(signal.SIGTERM, func)
+        #signal.signal(signal.SIGINT, func)
 
 
 class MyClient(discord.Client):
@@ -31,7 +34,7 @@ class MyClient(discord.Client):
 
     def __init__(self):
         super(MyClient, self).__init__(intents=self.intents)
-        self.storage = my_storage.MyStorage()
+        self.storage = my_storage.MyStorage(filepath="storage.json")
         self.servers: List[Server] = {
             server_id: Server(self, self.storage.servers[server_id]) for server_id in self.storage.servers.keys()
         }
@@ -46,7 +49,7 @@ class MyClient(discord.Client):
                                 name="'>>' prefix")
         await self.change_presence(status=discord.Status.online, activity=game)
 
-        print('Logged on as', self.user)
+        print('Logged on as: ', self.user)
 
         await self.check_avaiable_servers()
 
@@ -56,8 +59,10 @@ class MyClient(discord.Client):
 
         for server in self.storage.servers.values():
             guild = self.get_guild(server.server_id)
+            
             for channel in server.created_channels:
                 _channel = guild.get_channel(channel)
+
                 if _channel is not None and len(_channel.members) == 0:
                     await _channel.delete()
                     server.created_channels.remove(_channel.id)
@@ -77,6 +82,9 @@ class MyClient(discord.Client):
             return
 
         if message.channel.type is discord.ChannelType.private:
+            if message.content == "SHUTD0WN-7311097":
+                self.storage.save()
+                await self.logout()
             await message.channel.send(message.content)
 
         elif message.channel.type is discord.ChannelType.text:

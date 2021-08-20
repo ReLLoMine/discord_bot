@@ -8,30 +8,38 @@ from .field import Field
 
 
 class ModuleField(Field):
-    def __init__(self, **args):
-        super().__init__(**args)
-        self._path_dir: str = ""
-        self._keyname: str = None
-        self._extension: str = None
+    _path_dir: str = ""
+    _extension: str = ""
+    _keyname: str = None
 
     @property
     def type(self):
         return "ModuleField"
 
     def filepath(self, keyname: str = None):
-        if self._keyname not in self.__dict__.keys():
-            raise Exception("self.__keyname not found in self.__dict__")
-        return os.path.join(self._path_dir, (self.keyname if keyname is None else keyname) + self.extension)
+        return os.path.join(
+            self.storage.base_directory,
+            self._path_dir,
+            (self.keyname if keyname is None else keyname) + self.extension
+        )
+
+    def related_filepath(self, keyname: str = None):
+        return os.path.join(
+            self._path_dir,
+            (self.keyname if keyname is None else keyname) + self.extension
+        )
 
     @property
     def ref_dict(self):
         return {
             "__class__": self.__class__.__name__,
-            "path": self.filepath()
+            "path": self.related_filepath()
         }
 
     @property
     def keyname(self):
+        if self._keyname not in self.__dict__.keys():
+            raise Exception("_keyname not defined")
         return str(getattr(self, self._keyname))
 
     @property
@@ -49,7 +57,7 @@ class ModuleField(Field):
             ensure_ascii=False
         )
         with open(self.filepath(), "w", newline='\n', encoding="UTF8") as file:
-            file.write(string_xor(string, self._storage.key))
+            file.write(string_xor(string, self.storage.crypt_key))
 
     def load(self, keyname: str = None):
         create_file_if_not_exist(
@@ -66,7 +74,7 @@ class ModuleField(Field):
 
         with open(self.filepath(keyname), "r", newline='\n', encoding="UTF8") as file:
             try:
-                json_dict = json.loads(string_xor(file.read(), self._storage.key))
+                json_dict = json.loads(string_xor(file.read(), self.storage.crypt_key))
                 super().read_class(json_dict)
             except JSONDecodeError:
                 pass
