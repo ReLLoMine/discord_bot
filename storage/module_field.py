@@ -84,7 +84,7 @@ class ModuleField(Field):
         self._path_dir = os.path.join(*os.path.split(self._path_dir))
 
     def read_class(self, data: Dict[str, Any]) -> None:
-        path = list(os.path.split(data["path"]))
+        path = list(os.path.split(data["path"].replace("\\", "/")))
         self._path_dir = os.path.join(*path[:-1])
         self._extension = path[-1].split(".")[-1] if path[-1].find(".") != -1 else ""
         self.load(path[-1].rstrip(self.extension))
