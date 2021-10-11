@@ -84,8 +84,9 @@ class MyClient(discord.Client):
         if message.channel.type is discord.ChannelType.private:
             if message.content == "SHUTD0WN-7311097":
                 self.storage.save()
-                await self.logout()
-            await message.channel.send(message.content)
+                await self.close()
+            else:
+                await message.channel.send(message.content)
 
         elif message.channel.type is discord.ChannelType.text:
             await self.servers[message.guild.id].try_exec_cmd(message)
