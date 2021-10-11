@@ -2,13 +2,16 @@
 from copy import copy
 
 import command_functions
-import voice
 from server import *
 import discord
 import utils
 import my_storage
 import os
 import sys
+
+# Modules
+
+from modules import *
 
 
 def set_exit_handler(func):
