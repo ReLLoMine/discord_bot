@@ -5,7 +5,7 @@ import sys
 
 import utils
 from command import Command
-from my_storage import MyStorage, ServerField
+from my_storage import ServerField
 
 
 def str_to_class(string):
