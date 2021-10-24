@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import types
 
 from server import *
 import discord
@@ -21,35 +22,12 @@ class MyClient(discord.Client):
         }
 
         utils.set_exit_handler(self.on_exit)
-    #     self.load_functions()
-    #
-    # def load_functions(self):
-    #     for module_ in modules.sub_modules():
-    #         self.__dict__.update(utils.get_functions(module_))
+        self.load_methods()
 
-    async def on_message_edit(self, before, after):
-        await runtime.on_message_edit(self, before, after)
-
-    async def on_message_delete(self, message):
-        await runtime.on_message_delete(self, message)
-
-    async def on_typing(self, channel, user, when):
-        await runtime.on_typing(self, channel, user, when)
-
-    async def on_voice_state_update(self, member, before, after):
-        await voice.on_voice_state_update(self, member, before, after)
-
-    async def on_ready(self):
-        await on_start.on_ready(self)
-
-    async def check_avaiable_servers(self):
-        await on_start.check_avaiable_servers(self)
-
-    async def on_message(self, message):
-        await runtime.on_message(self, message)
-
-    async def on_guild_join(self, guild):
-        await runtime.on_guild_join(self, guild)
+    def load_methods(self):
+        for module_ in modules.sub_modules():
+            for name, method in utils.get_functions(module_).items():
+                self.__dict__[name] = types.MethodType(method, self)
 
     @staticmethod
     def reload_modules():
