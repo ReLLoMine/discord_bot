@@ -1,5 +1,6 @@
 from command_processor.aio_command_processor import AIOBaseCommand, AIOBaseCommandProcessor
 
+
 class CommandProcessor(AIOBaseCommandProcessor):
 
     def __init__(self, program, **kwargs):
@@ -12,3 +13,10 @@ class Exit(AIOBaseCommand):
     async def execute(cls):
         await cls.cmdproc.program.exit()
         return "Goodbye!"
+
+class ReloadModules(AIOBaseCommand):
+
+    @classmethod
+    async def execute(cls):
+        cls.cmdproc.program.client.reload_modules()
+        return "Modules reloaded successfully"

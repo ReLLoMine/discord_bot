@@ -1,6 +1,6 @@
 from bot import MyClient
 import sys
-from console_commands import CommandProcessor, Exit
+from console_commands import CommandProcessor, Exit, ReloadModules
 
 
 class Program:
@@ -16,7 +16,8 @@ class Program:
             invite=">",
             commands={
                 "exit": Exit,
-                "quit": Exit
+                "quit": Exit,
+                "reloadmodules": ReloadModules,
             })
 
         cls.console_run()
@@ -29,6 +30,7 @@ class Program:
     @classmethod
     async def exit(cls):
         cls.cp.stop()
+        cls.client.storage.save()
         await cls.client.close()
 
 
