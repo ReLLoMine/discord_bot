@@ -1,5 +1,6 @@
 import os
 
+from pathlib import Path
 
 def string_xor(data: str, key: str) -> str:
     if key in [chr(0), None, ""]:
@@ -18,3 +19,6 @@ def create_file_if_not_exist(filepath: str, data: str = "") -> None:
         file = open(filepath, 'w', newline='\n', encoding="UTF8")
         file.write(data)
         file.close()
+
+def get_kwargs(**kwargs):
+    return kwargs

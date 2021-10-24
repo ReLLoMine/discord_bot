@@ -1,27 +1,12 @@
 #!/usr/bin/python3
-from copy import copy
+import types
 
-import command_functions
-import voice
 from server import *
 import discord
-import utils
 import my_storage
-import os
-import sys
 
-
-def set_exit_handler(func):
-    if os.name == "nt":
-        try:
-            import win32api
-            win32api.SetConsoleCtrlHandler(func, True)
-        except ImportError:
-            version = ".".join(map(str, sys.version_info[:2]))
-            raise Exception("pywin32 not installed for Python " + version)
-    else:
-        import signal
-        signal.signal(signal.SIGTERM, func)
+# Modules
+from modules import *
 
 
 class MyClient(discord.Client):
@@ -31,58 +16,22 @@ class MyClient(discord.Client):
 
     def __init__(self):
         super(MyClient, self).__init__(intents=self.intents)
-        self.storage = my_storage.MyStorage()
+        self.storage = my_storage.MyStorage(filepath="storage.json")
         self.servers: List[Server] = {
             server_id: Server(self, self.storage.servers[server_id]) for server_id in self.storage.servers.keys()
         }
 
-        set_exit_handler(self.on_exit)
+        utils.set_exit_handler(self.on_exit)
+        self.load_methods()
 
-    async def on_voice_state_update(self, member, before, after):
-        await voice.voice_update(self, member, before, after)
+    def load_methods(self):
+        for module_ in modules.sub_modules():
+            for name, method in utils.get_functions(module_).items():
+                self.__dict__[name] = types.MethodType(method, self)
 
-    async def on_ready(self):
-        game = discord.Activity(type=discord.ActivityType.listening,
-                                name="'>>' prefix")
-        await self.change_presence(status=discord.Status.online, activity=game)
-        print('Logged on as', self.user)
-
-        for server in self.storage.servers.values():
-            guild = self.get_guild(server.server_id)
-            for channel in server.created_channels:
-                _channel = guild.get_channel(channel)
-                if _channel is not None and len(_channel.members) == 0:
-                    await _channel.delete()
-                    server.created_channels.remove(_channel.id)
-                elif _channel is None:
-                    server.created_channels.remove(channel)
-
-        for guild in self.guilds:
-            if guild.id not in self.servers:
-                await self.on_guild_join(guild)
-
-        self.storage.save()
-
-    async def on_message(self, message: discord.Message):
-        # don't respond to ourselves
-        if message.author == self.user:
-            return
-
-        if message.author.bot:
-            return
-
-        if message.channel.type is discord.ChannelType.private:
-            await message.channel.send(message.content)
-
-        elif message.channel.type is discord.ChannelType.text:
-            await self.servers[message.guild.id].try_exec_cmd(message)
-
-    async def on_guild_join(self, guild: discord.Guild):
-        server = ServerField(storage=self.storage)
-        server.server_id = guild.id
-        self.storage.servers[guild.id] = server
-        self.servers[guild.id] = Server(self, server)
-        self.storage.save()
+    @staticmethod
+    def reload_modules():
+        importlib.reload(modules)
 
     def run(self):
         super().run(self.storage.token)

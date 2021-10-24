@@ -5,7 +5,7 @@ import sys
 
 import utils
 from command import Command
-from my_storage import MyStorage, ServerField
+from my_storage import ServerField
 
 
 def str_to_class(string):
@@ -34,12 +34,13 @@ class Server:
         cmd, args = self.parse_msg_content(message)
         print(args)
 
-        try:
-            await self.commands[cmd].execute(message, args)
-        except Exception as exc:
-            print(exc)
-            await message.delete()
-            await utils.invalid_args(message.channel, 5)
+        if cmd:
+            try:
+                await self.commands[cmd].execute(message, args)
+            except Exception as exc:
+                print(exc)
+                await message.delete()
+                await utils.invalid_args(message.channel, 5)
 
     def parse_msg_content(self, message: discord.Message):
         """
