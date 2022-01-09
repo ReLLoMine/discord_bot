@@ -31,9 +31,9 @@ class ServerField(storage.ModuleField):
 
 class MyStorage(storage.Storage):
     def __init__(self, **args):
-        self.token = "Nzk3NDY4NjkwNjUxODA3ODA2.X_m6mA.MgFn0NDYfkDx0b8zTEnq-IR07o8"
-        self.owner_id = 401090419448086528
-        self.debug_server = 619267511589797889
+        self.token = ""
+        self.owner_id = 0
+        self.debug_server = 0
         self.default_commands: List[CommandField] = []
         self.servers: Dict[int, ServerField] = {}
         super().__init__(**args)
