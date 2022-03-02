@@ -7,7 +7,7 @@ from pathlib import Path
 from storage import utils
 from storage.field import Field
 from storage.module_field import ModuleField
-from storage.utils import string_xor, create_file_if_not_exist
+from storage.utils import string_xor, create_file_if_not_exist, check_dir
 
 
 class Storage(Field):
@@ -62,6 +62,8 @@ class Storage(Field):
             ensure_ascii=False
         )
 
+        check_dir(self.filepath)
+
         with open(self.filepath, "w", newline='\n', encoding="UTF8") as file:
             file.write(string_xor(string, self.crypt_key))
 
@@ -77,6 +79,9 @@ class Storage(Field):
                 ensure_ascii=False
             )
         )
+
+        check_dir(self.filepath)
+
         with open(self.filepath, "r", newline='\n', encoding="UTF8") as file:
             try:
                 data = json.loads(string_xor(file.read(), self.crypt_key))

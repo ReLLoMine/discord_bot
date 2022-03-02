@@ -29,9 +29,7 @@ def discord_id(string: str, strip="member"):
     role
     channel
     """
-    return int(string.
-               lstrip(id_types[strip]["L"]).
-               rstrip(id_types[strip]["R"]))
+    return int(string.lstrip(id_types[strip]["L"]).rstrip(id_types[strip]["R"]))
 
 
 async def play_sound(voice_client, file):

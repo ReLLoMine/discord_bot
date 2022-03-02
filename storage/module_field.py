@@ -3,7 +3,7 @@ import os
 from json.decoder import JSONDecodeError
 from typing import Any, Dict
 
-from .utils import string_xor, create_file_if_not_exist
+from .utils import string_xor, create_file_if_not_exist, check_dir
 from .field import Field
 
 
@@ -56,6 +56,9 @@ class ModuleField(Field):
             indent=2,
             ensure_ascii=False
         )
+
+        check_dir(self.filepath())
+
         with open(self.filepath(), "w", newline='\n', encoding="UTF8") as file:
             file.write(string_xor(string, self.storage.crypt_key))
 
@@ -71,6 +74,8 @@ class ModuleField(Field):
                 ensure_ascii=False
             )
         )
+
+        check_dir(self.filepath())
 
         with open(self.filepath(keyname), "r", newline='\n', encoding="UTF8") as file:
             try:

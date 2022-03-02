@@ -38,7 +38,7 @@ class AIOBaseCommandProcessor(BaseCommandProcessor):
             else:
                 return "Command not found!"
 
-    async def process_input(self):
+    async def process_input(self, _input=None):
         res = await self.process_string(await self.aio_input())
         if res != "":
             self.output(res)

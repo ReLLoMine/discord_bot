@@ -1,6 +1,5 @@
+import errno
 import os
-
-from pathlib import Path
 
 def string_xor(data: str, key: str) -> str:
     if key in [chr(0), None, ""]:
@@ -22,3 +21,11 @@ def create_file_if_not_exist(filepath: str, data: str = "") -> None:
 
 def get_kwargs(**kwargs):
     return kwargs
+
+def check_dir(filename):
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise

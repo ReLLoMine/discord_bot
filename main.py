@@ -1,23 +1,24 @@
-from bot import MyClient
+import bot
 import sys
-from console_commands import CommandProcessor, Exit, ReloadModules
+from console_commands import CommandProcessor, Exit, ReloadModules, ChatBuffer
 
 
 class Program:
-    client: MyClient = None
+    client: bot.MyClient = None
     cp: CommandProcessor = None
 
     @classmethod
     def main(cls):
-        cls.client = MyClient()
+        cls.client = bot.MyClient()
         cls.cp = CommandProcessor(
             cls,
             loop=cls.client.loop,
-            invite=">",
+            invite="> ",
             commands={
                 "exit": Exit,
                 "quit": Exit,
                 "reloadmodules": ReloadModules,
+                "chatbuffer": ChatBuffer,
             })
 
         cls.console_run()

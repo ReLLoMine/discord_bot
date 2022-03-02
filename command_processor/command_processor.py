@@ -1,6 +1,10 @@
+import typing
+import asyncio
 from enum import Enum
-from typing import Tuple, List, Any
 
+
+def is_async(func):
+    return asyncio.iscoroutinefunction(func)
 
 class Mask(Enum):
     int = 0
@@ -40,7 +44,8 @@ class BaseCommandProcessor:
         if tmp_string != "":
             yield tmp_string
 
-    def _split_input(self, string: str) -> Tuple[str, List[str]]:
+    def _split_input(self, string: str) -> typing.Tuple[str, typing.List[str]]:
+
         def extract(arr):
             try:
                 return arr[0], arr[1:]
@@ -49,23 +54,35 @@ class BaseCommandProcessor:
 
         return extract([*self.split(string.rstrip(self.prefix))])
 
-    def process_string(self, string: str) -> str:
+    async def process_string(self, string: str) -> str:
         string = string.strip()
         if string.startswith(self.prefix):
             if string == "":
-                return ""
-            cmd, args = self._split_input(string)
+                return None
+            cmd, args = self._split_input(string.lstrip(self.prefix))
 
             if cmd in self.commands.keys():
-                return self.commands[cmd].process(*args)
+                return await self.commands[cmd].process(*args)
             else:
                 return "Command not found!"
+        return None
 
-    def process_input(self):
-        res = self.process_string(self.input(self.invite))
-        if res != "":
-            self.output(res)
+    async def process_input(self, _input=None):
+        if _input is None:
+            if is_async(self.input):
+                string = await self.input(self.invite)
+            else:
+                string = self.input(self.invite)
 
+            res = await self.process_string(string)
+        else:
+            res = await self.process_string(_input)
+
+        if res is not None:
+            if is_async(self.output):
+                await self.output(res)
+            else:
+                self.output(res)
 
 class BaseCommand:
     """
@@ -73,7 +90,7 @@ class BaseCommand:
     """
 
     # mask: List[enumerate] = []
-    args: List[Any] = []
+    args: typing.List[typing.Any] = []
     cmdproc: BaseCommandProcessor = None
 
     @classmethod
@@ -110,14 +127,21 @@ class BaseCommand:
         cls.args = list(args)
 
     @classmethod
-    def process(cls, *args):
+    async def process(cls, *args):
         cls._store_args(*args)
 
         if cls._check_mask():
-            return cls.execute()
+            return await cls.execute()
         else:
             return "Invalid argument(s)"
 
     @classmethod
-    def execute(cls):
+    async def execute(cls):
         raise NotImplemented
+
+    @classmethod
+    def get_arg(cls, idx=0):
+        if idx < len(cls.args):
+            return cls.args[0]
+        else:
+            return IndexError

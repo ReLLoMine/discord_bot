@@ -2,7 +2,6 @@ import discord
 
 
 from my_storage import ServerField
-from server import Server
 
 
 async def on_message_edit(self, before, after):
@@ -33,11 +32,12 @@ async def on_message(self, message: discord.Message):
             await message.channel.send(message.content)
 
     elif message.channel.type is discord.ChannelType.text:
-        await self.servers[message.guild.id].try_exec_cmd(message)
+        self.servers[message.guild.id].cp.push_message(message)
+        await self.servers[message.guild.id].cp.process_input()
 
 async def on_guild_join(self, guild: discord.Guild):
     server = ServerField(storage=self.storage)
     server.server_id = guild.id
     self.storage.servers[guild.id] = server
-    self.servers[guild.id] = Server(self, server)
+    self.servers[guild.id] = type(self)(self, server)
     self.storage.save()

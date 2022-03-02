@@ -20,3 +20,11 @@ class ReloadModules(AIOBaseCommand):
     async def execute(cls):
         cls.cmdproc.program.client.reload_modules()
         return "Modules reloaded successfully"
+
+class ChatBuffer(AIOBaseCommand):
+    @classmethod
+    async def execute(cls):
+        if cls.get_arg(0) is not IndexError:
+            return cls.cmdproc.program.client.servers[cls.get_arg(0)].cp.chat_buffer
+        else:
+            return "IndexError"
